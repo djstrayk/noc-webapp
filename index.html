@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>База знаний NOC</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Адаптация под тему пользователя Telegram */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            color: var(--tg-theme-text-color, #000000);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 22px;
+            color: var(--tg-theme-text-color, #000000);
+        }
+
+        .menu-container {
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Стиль кнопок-карточек */
+        .kb-button {
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            border: none;
+            border-radius: 12px;
+            padding: 18px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+            width: 100%;
+            text-align: left;
+        }
+
+        .kb-button:active {
+            transform: scale(0.98);
+            background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
+        }
+
+        /* Иконки внутри кнопок */
+        .icon {
+            font-size: 24px;
+            margin-right: 15px;
+            background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+        }
+
+        /* Убираем синюю обводку при нажатии на мобилках */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>📚 База знаний NOC</h2>
+    </div>
+
+    <div class="menu-container">
+        <button class="kb-button" onclick="requestArticle('l2tp')">
+            <span class="icon">🔴</span>
+            Ошибки L2TP
+        </button>
+
+        <button class="kb-button" onclick="requestArticle('ipoe')">
+            <span class="icon">🔵</span>
+            Ошибки IPoE
+        </button>
+
+        <button class="kb-button" onclick="requestArticle('voip')">
+            <span class="icon">📞</span>
+            Авторизация VoIP
+        </button>
+
+        <button class="kb-button" onclick="requestArticle('routers')">
+            <span class="icon">📶</span>
+            Настройка роутеров
+        </button>
+
+        <button class="kb-button" onclick="requestArticle('tv')">
+            <span class="icon">📺</span>
+            Авторизация ТВ
+        </button>
+    </div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем на весь экран
+
+        // Функция отправки запроса в бота
+        function requestArticle(topicId) {
+            // Формируем JSON с указанием, что это запрос из базы знаний
+            let data = {
+                action: "knowledge_base",
+                topic: topicId
+            };
+
+            // Отправляем данные боту
+            tg.sendData(JSON.stringify(data));
+            
+            // Сразу закрываем WebApp, чтобы бот прислал инструкцию в чат
+            tg.close();
+        }
+    </script>
+
+</body>
+</html>
