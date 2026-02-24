@@ -6,16 +6,20 @@
     <title>База знаний NOC</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Адаптация под тему пользователя Telegram */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
             color: var(--tg-theme-text-color, #000000);
             margin: 0;
             padding: 0;
+        }
+
+        /* --- СТИЛИ ГЛАВНОГО МЕНЮ --- */
+        #main-menu {
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding-bottom: 30px;
         }
 
         .header {
@@ -27,11 +31,7 @@
             margin-bottom: 20px;
         }
 
-        h2 {
-            margin: 0;
-            font-size: 22px;
-            color: var(--tg-theme-text-color, #000000);
-        }
+        h2 { margin: 0; font-size: 22px; }
 
         .menu-container {
             width: 90%;
@@ -41,7 +41,6 @@
             gap: 12px;
         }
 
-        /* Стиль кнопок-карточек */
         .kb-button {
             background-color: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #000000);
@@ -52,91 +51,157 @@
             font-weight: 500;
             display: flex;
             align-items: center;
-            justify-content: flex-start;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             cursor: pointer;
-            transition: transform 0.1s, background-color 0.2s;
             width: 100%;
-            text-align: left;
         }
 
-        .kb-button:active {
-            transform: scale(0.98);
-            background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
+        .kb-button:active { background-color: var(--tg-theme-secondary-bg-color, #f4f4f5); }
+        .icon { font-size: 24px; margin-right: 15px; }
+
+        /* --- СТИЛИ СТАТЕЙ --- */
+        .article-page {
+            display: none; /* По умолчанию статьи скрыты */
+            padding: 20px;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            min-height: 100vh;
         }
 
-        /* Иконки внутри кнопок */
-        .icon {
+        .article-title {
             font-size: 24px;
-            margin-right: 15px;
-            background-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
-            border-radius: 8px;
-            padding: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 30px;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--tg-theme-text-color, #000000);
+            border-bottom: 2px solid var(--tg-theme-secondary-bg-color, #f4f4f5);
+            padding-bottom: 10px;
         }
 
-        /* Убираем синюю обводку при нажатии на мобилках */
-        * {
-            -webkit-tap-highlight-color: transparent;
+        .article-content {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Картинки в статьях */
+        .article-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* Кнопка закрытия внизу статьи */
+        .close-app-btn {
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 30px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h2>📚 База знаний NOC</h2>
+    <div id="main-menu">
+        <div class="header">
+            <h2>📚 База знаний NOC</h2>
+        </div>
+        <div class="menu-container">
+            <button class="kb-button" onclick="openArticle('l2tp')"><span class="icon">🔴</span>Ошибки L2TP</button>
+            <button class="kb-button" onclick="openArticle('ipoe')"><span class="icon">🔵</span>Ошибки IPoE</button>
+            <button class="kb-button" onclick="openArticle('voip')"><span class="icon">📞</span>Авторизация VoIP</button>
+            <button class="kb-button" onclick="openArticle('routers')"><span class="icon">📶</span>Настройка роутеров</button>
+            <button class="kb-button" onclick="openArticle('tv')"><span class="icon">📺</span>Авторизация ТВ</button>
+        </div>
     </div>
 
-    <div class="menu-container">
-        <button class="kb-button" onclick="requestArticle('l2tp')">
-            <span class="icon">🔴</span>
-            Ошибки L2TP
-        </button>
-
-        <button class="kb-button" onclick="requestArticle('ipoe')">
-            <span class="icon">🔵</span>
-            Ошибки IPoE
-        </button>
-
-        <button class="kb-button" onclick="requestArticle('voip')">
-            <span class="icon">📞</span>
-            Авторизация VoIP
-        </button>
-
-        <button class="kb-button" onclick="requestArticle('routers')">
-            <span class="icon">📶</span>
-            Настройка роутеров
-        </button>
-
-        <button class="kb-button" onclick="requestArticle('tv')">
-            <span class="icon">📺</span>
-            Авторизация ТВ
-        </button>
+    <div id="l2tp" class="article-page">
+        <h1 class="article-title">Ошибки L2TP</h1>
+        <div class="article-content">
+            <p>Здесь инструкция по ошибкам L2TP.</p>
+            <ul>
+                <li>Ошибка 691: Неверный логин или пароль.</li>
+                <li>Ошибка 809: Проблема с пробросом портов (GRE/IPsec).</li>
+            </ul>
+            <button class="close-app-btn" onclick="closeApp()">✖ Закрыть базу знаний</button>
+        </div>
     </div>
+
+    <div id="ipoe" class="article-page">
+        <h1 class="article-title">Ошибки IPoE</h1>
+        <div class="article-content">
+            <p>Здесь инструкция по диагностике IPoE.</p>
+            <p>Проверьте приход DHCP Discover и опцию 82 на коммутаторе доступа.</p>
+            <button class="close-app-btn" onclick="closeApp()">✖ Закрыть базу знаний</button>
+        </div>
+    </div>
+
+    <div id="voip" class="article-page">
+        <h1 class="article-title">Авторизация VoIP</h1>
+        <div class="article-content">
+            <p>Настройки голосовых шлюзов и SIP-авторизации.</p>
+            <button class="close-app-btn" onclick="closeApp()">✖ Закрыть базу знаний</button>
+        </div>
+    </div>
+
+    <div id="routers" class="article-page">
+        <h1 class="article-title">Настройка роутеров</h1>
+        <div class="article-content">
+            <p>Базовые параметры для настройки клиентских маршрутизаторов.</p>
+            <button class="close-app-btn" onclick="closeApp()">✖ Закрыть базу знаний</button>
+        </div>
+    </div>
+
+    <div id="tv" class="article-page">
+        <h1 class="article-title">Авторизация ТВ</h1>
+        <div class="article-content">
+            <p>Проблемы с мультикастом, IGMP Snooping и порталами.</p>
+            <button class="close-app-btn" onclick="closeApp()">✖ Закрыть базу знаний</button>
+        </div>
+    </div>
+
 
     <script>
-        // Инициализация Telegram WebApp
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем на весь экран
+        tg.expand();
 
-        // Функция отправки запроса в бота
-        function requestArticle(topicId) {
-            // Формируем JSON с указанием, что это запрос из базы знаний
-            let data = {
-                action: "knowledge_base",
-                topic: topicId
-            };
+        // Скрываем нативную кнопку Назад при запуске
+        tg.BackButton.hide();
 
-            // Отправляем данные боту
-            tg.sendData(JSON.stringify(data));
+        // Функция открытия статьи
+        function openArticle(articleId) {
+            // Скрываем главное меню
+            document.getElementById('main-menu').style.display = 'none';
+            // Показываем нужную статью
+            document.getElementById(articleId).style.display = 'block';
             
-            // Сразу закрываем WebApp, чтобы бот прислал инструкцию в чат
+            // Показываем нативную кнопку "Назад" в шапке Телеграма
+            tg.BackButton.show();
+        }
+
+        // Обработчик нажатия на нативную кнопку "Назад"
+        tg.BackButton.onClick(function() {
+            // Скрываем все статьи
+            let articles = document.getElementsByClassName('article-page');
+            for(let i = 0; i < articles.length; i++) {
+                articles[i].style.display = 'none';
+            }
+            // Возвращаем главное меню
+            document.getElementById('main-menu').style.display = 'flex';
+            
+            // Прячем кнопку "Назад", так как мы в корне
+            tg.BackButton.hide();
+        });
+
+        // Функция полного закрытия приложения
+        function closeApp() {
             tg.close();
         }
     </script>
- 
 </body>
 </html>
